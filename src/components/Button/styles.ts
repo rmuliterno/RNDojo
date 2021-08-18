@@ -9,6 +9,7 @@ export const Container = styled(TouchableOpacity)`
   background-color: #3ad2ec;
   border-radius: 6px;
   align-items: center;
+  margin-bottom: 5px;
 `;
 
 export const Title = styled.Text`
