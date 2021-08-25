@@ -1,20 +1,21 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Text, StyleSheet, SafeAreaView} from 'react-native';
-import {AuthContext} from '../../contexts/AuthProvider';
 import Button from '../../components/Button';
+import {Container} from './styles';
 
-const Home = ({navigation}: any) => {
-  const {user, logout} = useContext(AuthContext);
-
+const About = ({navigation}: any) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Olá, {user ? user.email : ''}</Text>
-      <Button title="Sair" activeOpacity={0.5} onPress={logout} />
+      <Text style={styles.title}>About</Text>
+      <Container>
+        Next-gen banking and payments at hyperscale Build financial products
+        fast and reliably with our all-in-one, cloud-native platform
+      </Container>
       <Button
-        title="About"
+        title="Home"
         activeOpacity={0.5}
         onPress={() => {
-          navigation.navigate('About');
+          navigation.navigate('Home');
         }}
       />
     </SafeAreaView>
@@ -35,4 +36,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default About;

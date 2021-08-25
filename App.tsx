@@ -1,31 +1,38 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import Home from './src/pages/Home';
 
 import Login from './src/pages/Login';
-import {StorageClient} from './src/storage/storageClient';
+import {AuthContext} from './src/contexts/AuthProvider';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {StoreProvider} from './src/contexts/StoreProvider';
+import About from './src/pages/About';
+
+const Stack = createStackNavigator();
+
+const Navigation = () => {
+  const {isAuthenticate} = useContext(AuthContext);
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        {!isAuthenticate && <Stack.Screen name="Login" component={Login} />}
+        {isAuthenticate && (
+          <>
+            <Stack.Screen name="About" component={About} />
+            <Stack.Screen name="Home" component={Home} />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
 const App = () => {
-  const [userInfo, setUserInfo] = useState<any>(null);
-  const storageClient = new StorageClient();
-
-  useEffect(() => {
-    (async () => {
-      const result = await storageClient.getData();
-      if (!result) {
-        console.log('deu ruim!');
-        return;
-      }
-
-      setUserInfo(JSON.parse(result));
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (userInfo !== null) {
-    return <Home />;
-  }
-
-  return <Login />;
+  return (
+    <StoreProvider>
+      <Navigation />
+    </StoreProvider>
+  );
 };
 
 export default App;
